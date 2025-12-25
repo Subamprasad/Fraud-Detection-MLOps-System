@@ -1,0 +1,18 @@
+app:
+  name: "FraudDetectionSystem"
+  version: "1.0.0"
+  log_level: "INFO"
+
+data:
+  features: ["amount", "time_of_day", "merchant_risk", "location_distance"]
+  target: "is_fraud"
+  drift_threshold: 0.05
+
+models:
+  rule_based:
+    max_amount: 10000
+    suspicious_hours: [0, 1, 2, 3, 23]
+  ml:
+    test_size: 0.2
+    random_state: 42
+    retrain_threshold: 0.8
