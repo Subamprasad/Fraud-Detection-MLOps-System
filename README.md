@@ -59,16 +59,7 @@ fraud_detection_system/
 **Build → Validate → Explain**
 This system was built with a strict "Design First" mindset. In MLOps, components like data ingestion, model training, and serving have distinct lifecycles and requirements. We use standard software design patterns to decouple these components, ensuring that the system is robust, testable, and capable of evolving (e.g., swapping a model or data source) without breaking the entire pipeline.
 
-| Pattern | Where Used | How It Is Validated |
-| :--- | :--- | :--- |
-| **Singleton** | `src/config.py` (Config) | runtime check: modification of config in one module is immediately reflected in another. |
-| **Factory** | `src/models/factory.py` | Call `ModelFactory.get_model('ml')` vs `('rule_based')` returns distinct class instances. |
-| **Strategy** | `src/models/*.py` | The `PredictionService` accepts any class satisfying the `DetectionStrategy` interface seamlessly. |
-| **Adapter** | `src/config.py` (CSVAdapter) | `main.py` calls `.load_data()` without knowing if it's reading CSV, SQL, or generating dummy data. |
-| **Decorator** | `src/serving.py` | logs show "Analysis Request" and "Duration" wrapping the prediction output, absent in raw model calls. |
-| **Observer** | `src/drift_monitor.py` | modifying input data distribution in `main.py` triggers the `RetrainAlert` automatically. |
-| **Command** | `src/commands.py` | `TrainCommand` and `RetrainCommand` can be stored in a list and executed sequentially. |
-| **Proxy** | `src/serving.py` | Changing the role from "SYSTEM" to "GUEST" in `main.py` raises a `PermissionError`. |
+All 8 design patterns (Singleton, Factory, Observer, Adapter, Strategy, Command, Decorator, Proxy) have been implemented and validated to ensure a robust and scalable architecture.
 
 ### 🧠 MLOps Decisions Explained
 
